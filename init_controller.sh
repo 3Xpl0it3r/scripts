@@ -39,7 +39,6 @@ set -o pipefail
 
 SCRIPT_ROOT=\$(dirname \${BASH_SOURCE})
 
-echo $SCRIPT_ROOT
 
 bash ../vendor/k8s.io/code-generator/generate-groups.sh "all" \
   l0calh0st.cn/$PROJECT/pkg/client \
