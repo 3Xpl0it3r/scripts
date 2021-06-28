@@ -42,7 +42,7 @@ SCRIPT_ROOT=\$(dirname \${BASH_SOURCE})
 
 bash ../vendor/k8s.io/code-generator/generate-groups.sh "all" \
   l0calh0st.cn/$PROJECT/pkg/client \
-  l0calh0st.cn/$PEOJECT/pkg/apis \
+  l0calh0st.cn/$PROJECT/pkg/apis \
   $PROJECT.l0calh0st.cn:$VERSION \
   --output-base \${SCRIPT_ROOT}/../../../ \
   --go-header-file "\${SCRIPT_ROOT}/boilerplate.go.txt"
