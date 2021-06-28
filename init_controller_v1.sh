@@ -75,11 +75,51 @@ package $VERSION
 EOF
 
 # auto geneate types.go
+UpperCustomeResurce=`echo $CUSTOME_RESOURCE_NAME | sed -e "s/\b\(.\)/\u\1/g"`
+Spec=$UpperCustomeResurce"Spec"
+Status=$UpperCustomeResurce"Status"
+Items=$UpperCustomeResurce"Itemm"
 cat >> pkg/apis/$ShortProjectName.$GROUP_NAME/$VERSION/types.go << EOF
-package $VERSION
+package v1alpha1
+
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
+
+
+
+// +genclient
+// +k8s:defaulter-gen=true
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// HdfsCluster represent the hdfs cluster
+type $UpperCustomeResurce struct {
+	metav1.TypeMeta \`json:",inline"\`
+	metav1.ObjectMeta \`json:"metadata,omitempty"\`
+
+	Spec $Spec \`json:"spec"\`
+	Status $Status \`json:"status"\`
+}
+
+
+type $Spec struct {
+
+}
+
+// $Status represent the current status of hdfs cluster resource
+type $Status struct {
+
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// $Items represent a list of hdfs cluster
+type $Items struct {
+	metav1.TypeMeta \`json:",inline"\`
+	metav1.ListMeta \`json:"metadata,omitempty"\`
+
+	Items []$UpperCustomeResurce \`json:"items"\`
+}
 EOF
 
 # generate regiser.go
@@ -114,8 +154,8 @@ func Kind(kind string)schema.GroupKind{
 
 func addKnowTypes(scheme *runtime.Scheme)error{
 	scheme.AddKnownTypes(SchemeGroupVersion,
-		//new(HdfsCluster),
-		new(nil))
+		new($UpperCustomeResurce),
+        new($Items),
 	metav1.AddToGroupVersion(scheme, SchemeGroupVersion)
 	return nil
 }
